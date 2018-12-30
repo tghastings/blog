@@ -32,7 +32,7 @@ type JSONTOKEN struct {
 	Token string
 }
 
-// User describes teh user database
+// User describes the user database
 type User struct {
 	gorm.Model
 	Username string
