@@ -40,7 +40,7 @@ The routes below do not require authentication are accessible by everyone.
 ### Authenticated Routes
 `PUT http://localhost:8090/auth` 
 
-Consumes: application/json.
+Consumes: application/json:
 ```
 {
   "username" : "root",
