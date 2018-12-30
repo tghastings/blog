@@ -33,6 +33,7 @@ There are a number of routes defined for viewing and manipulating data for users
 The routes below do not require authentication are accessible by everyone.
 
 `GET http://localhost:8090/` returns a list of all posts
+
 `GET http://localhost:8090/post/{id}` returns one post with the specified ID
 
 
