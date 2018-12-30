@@ -27,7 +27,7 @@ username: `root`
 Password: `12345` 
 
 ## Routes
-There are a number of routes defined for viewing and manipulating data fro users and posts.
+There are a number of routes defined for viewing and manipulating data for users and posts. The routes are distinguished into two groups, unauthenticated and authenticated. Unauthenticated routes do NOT require authentication. Authenticated routes DO require authentication using a JWT.
 
 ## Unauthenticated Routes
 The routes below do not require authentication are accessible by everyone.
@@ -37,7 +37,7 @@ The routes below do not require authentication are accessible by everyone.
 
 
 ### Authenticated Routes
-`PUT http://localhost:8090/auth` returns a cookie with `Token`. Use this Token's value in a header for API requests.
+`PUT http://localhost:8090/auth` returns a cookie with `Token`. Use this JSON Web Token's value in a header for API requests.
 
 ```
 {
