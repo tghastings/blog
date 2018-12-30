@@ -56,6 +56,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	//json resp
 	msg := Message{"success", "Post added."}
 	js, err := json.Marshal(msg)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }

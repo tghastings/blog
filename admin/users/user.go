@@ -93,6 +93,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(newUser.Password)
 	err = json.Unmarshal(js, &newUser)
 	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	if err != nil {
 		// handle error
 		log.Fatal(err)
 	}
