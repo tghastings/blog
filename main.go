@@ -24,7 +24,6 @@ import (
 	"net/http"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/tghastings/blog/admin/db"
 	user "github.com/tghastings/blog/admin/users"
@@ -35,20 +34,6 @@ var mySigningKey = []byte("pleasedonthackmebro")
 
 var err error
 
-type Message struct {
-	Type    string
-	Message string
-}
-
-type User struct {
-	gorm.Model
-	Username string
-	Password string
-	APIToken string
-	Valtoken string
-	Email    string
-}
-
 func main() {
 	if err := db.Open(); err != nil {
 		// handle error
@@ -57,16 +42,12 @@ func main() {
 	// Migrate the schema
 	db.DB.AutoMigrate(user.User{})
 	db.DB.AutoMigrate(post.Post{})
+	// Check to see if a user exisits if not create root
+	user.FirstUser()
 
-	var userCount int
-	var users []User
-	db.DB.Find(&users).Count(&userCount)
-	if userCount == 0 {
-		db.DB.Create(&User{Username: "root", Password: "$2a$04$7ZZOLkODB70E5UL9UqvGzuPnqfaCZjKVUd7UhYP4jRywU/gOzHomS"})
-		fmt.Println("Created new user `root` password is `12345`")
-	}
-
-	// Posts
+	/*
+		ROUTES
+	*/
 
 	// swagger:route GET /posts posts
 	//

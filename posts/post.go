@@ -7,10 +7,10 @@ import (
 	"net/http"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/tghastings/blog/admin/db"
 )
 
+// Post describes the database schema
 type Post struct {
 	gorm.Model
 	Title   string
@@ -20,11 +20,13 @@ type Post struct {
 	Content string `gorm:"type:varchar(256)"`
 }
 
+// Message describes the JSON object message
 type Message struct {
 	Type    string
 	Message string
 }
 
+// Index shows all posts
 func Index(w http.ResponseWriter, r *http.Request) {
 	var posts []Post
 	db.DB.Order("created_at desc").Find(&posts)
@@ -37,43 +39,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+// Create new post
 func Create(w http.ResponseWriter, r *http.Request) {
-	// swagger:operation POST /admin/post/create posts
-	//
-	// Create new post
-	//
-	//
-	// ---
-	// consumes:
-	// - application/json
-	// produces:
-	// - application/json
-	// parameters:
-	// - name: tags
-	//   in: query
-	//   description: tags to filter by
-	//   required: false
-	//   type: array
-	//   items:
-	//     type: string
-	//   collectionFormat: csv
-	// - name: limit
-	//   in: query
-	//   description: maximum number of results to return
-	//   required: false
-	//   type: integer
-	//   format: int32
-	// responses:
-	//   '200':
-	//     description: pet response
-	//     schema:
-	//       type: array
-	//       items:
-	//         "$ref": "#/definitions/pet"
-	//   default:
-	//     description: unexpected error
-	//     schema:
-	//       "$ref": "#/definitions/errorModel"
 	var newPost Post
 	err := json.NewDecoder(r.Body).Decode(&newPost)
 	if err != nil {
@@ -93,6 +60,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+// Show displays a single post
 func Show(w http.ResponseWriter, r *http.Request) {
 	var post Post
 	err := json.NewDecoder(r.Body).Decode(&post)
@@ -103,10 +71,15 @@ func Show(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(post.ID)
 	db.DB.Find(&post, post.ID)
 	js, err := json.Marshal(&post)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
 
+// Update updates one record
 func Update(w http.ResponseWriter, r *http.Request) {
 	var post Post
 	err := json.NewDecoder(r.Body).Decode(&post)
@@ -118,6 +91,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	db.DB.Model(&post).Where("ID = ?", post.ID).Updates(post)
 }
 
+// Delete removed a post
 func Delete(w http.ResponseWriter, r *http.Request) {
 	var post Post
 	err := json.NewDecoder(r.Body).Decode(&post)
