@@ -38,14 +38,17 @@ The routes below do not require authentication are accessible by everyone.
 
 
 ### Authenticated Routes
-`PUT http://localhost:8090/auth` returns a cookie with `Token`. Use this JSON Web Token's value in a header for API requests.
+`PUT http://localhost:8090/auth` 
 
+Consumes: application/json.
 ```
 {
   "username" : "root",
   "password" : "12345"
 }
 ```
+Returns a cookie with `Token`. Use this JSON Web Token's value in a header for API requests.
+
 
 # Licence
 
