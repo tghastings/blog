@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/tghastings/blog.svg?branch=master)](https://travis-ci.org/tghastings/blog) [![Go Report Card](https://goreportcard.com/badge/github.com/tghastings/blog)](https://goreportcard.com/report/github.com/tghastings/blog) 
 
 
-`Hastings Blog` is a lightweight blogging platform that provides a RESTful API which serves JSON and utalizes CRUD functions to manipulate data for posts and users. The platform leverages JSON Web Tokens for authentication and bcrypt to protect sensative data in the database. 
+`Hastings Blog` is a lightweight blogging platform that provides a RESTful API which serves JSON and utalizes CRUD functions to manipulate data for posts and users. The platform leverages JSON Web Tokens for authentication and bcrypt to protect sensative data for presistant data.
 
 # Features
 * [x] Postgres, MySQL, SQLite and Foundation database support
