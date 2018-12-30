@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -113,14 +114,17 @@ func Create(w http.ResponseWriter, r *http.Request) {
 // Show shows all users
 func Show(w http.ResponseWriter, r *http.Request) {
 	var user User
-	err := json.NewDecoder(r.Body).Decode(&user)
+	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/")
+	if userID == "" {
+		log.Println("ID Param 'key' is missing")
+		return
+	}
+	db.DB.Find(&user, userID)
+	js, err := json.Marshal(&user)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
-	fmt.Println(user.ID)
-	db.DB.Find(&user, user.ID)
-	js, err := json.Marshal(&user)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
@@ -128,13 +132,27 @@ func Show(w http.ResponseWriter, r *http.Request) {
 // Update updates one user record by id
 func Update(w http.ResponseWriter, r *http.Request) {
 	var user User
+	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/update/")
+	if userID == "" {
+		log.Println("ID Param 'key' is missing")
+		return
+	}
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
 	// fmt.Println(user)
-	db.DB.Model(&user).Where("ID = ?", user.ID).Updates(user)
+	db.DB.Model(&user).Where("ID = ?", userID).Updates(user)
+	//json resp
+	msg := Message{"success", user.Username + "'s account updated."}
+	js, err := json.Marshal(msg)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 // Delete removes a user by id

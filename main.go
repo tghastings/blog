@@ -80,7 +80,7 @@ func main() {
 	//       default: genericError
 	//       200: someResponse
 	//       422: validationError
-	http.HandleFunc("/post", post.Show)
+	http.HandleFunc("/post/", post.Show)
 
 	// swagger:route POST /post/create posts
 	//
@@ -149,7 +149,7 @@ func main() {
 	//       default: genericError
 	//       200: someResponse
 	//       422: validationError
-	http.Handle("/admin/post/update", isAuthorized(post.Update))
+	http.Handle("/admin/post/update/", isAuthorized(post.Update))
 
 	// Users
 
@@ -193,7 +193,7 @@ func main() {
 	//       default: genericError
 	//       200: someResponse
 	//       422: validationError
-	http.Handle("/admin/user", isAuthorized(user.Show))
+	http.Handle("/admin/user/", isAuthorized(user.Show))
 
 	// swagger:route POST /admin/user/create users
 	//
@@ -260,7 +260,7 @@ func main() {
 	//       default: genericError
 	//       200: someResponse
 	//       422: validationError
-	http.Handle("/admin/user/update", isAuthorized(user.Update))
+	http.Handle("/admin/user/update/", isAuthorized(user.Update))
 
 	//Auth
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 	"github.com/tghastings/blog/config/db"
@@ -67,13 +68,12 @@ func Create(w http.ResponseWriter, r *http.Request) {
 // Show displays a single post
 func Show(w http.ResponseWriter, r *http.Request) {
 	var post Post
-	err := json.NewDecoder(r.Body).Decode(&post)
-	if err != nil {
-		http.Error(w, err.Error(), 400)
+	postID := strings.TrimPrefix(r.URL.Path, "/post/")
+	if postID == "" {
+		log.Println("ID Param 'key' is missing")
 		return
 	}
-	fmt.Println(post.ID)
-	db.DB.Find(&post, post.ID)
+	db.DB.Find(&post, postID)
 	js, err := json.Marshal(&post)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
@@ -86,13 +86,27 @@ func Show(w http.ResponseWriter, r *http.Request) {
 // Update updates one record
 func Update(w http.ResponseWriter, r *http.Request) {
 	var post Post
+	postID := strings.TrimPrefix(r.URL.Path, "/admin/post/update/")
+	if postID == "" {
+		log.Println("ID Param 'key' is missing")
+		return
+	}
 	err := json.NewDecoder(r.Body).Decode(&post)
+	if err != nil {
+		log.Println("Error")
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	db.DB.Model(&post).Where("ID = ?", postID).Updates(post)
+	//json resp
+	msg := Message{"success", "Post updated."}
+	js, err := json.Marshal(msg)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
-	fmt.Println(post)
-	db.DB.Model(&post).Where("ID = ?", post.ID).Updates(post)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 // Delete removed a post
