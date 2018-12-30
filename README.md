@@ -10,7 +10,7 @@
 * [x] User authentication using JWTs and bcrypt with salt for secure password storage
 
 ## Motivation
-This is my first project built with golang. I have only been playing with it for a week and building a blogging platform is usually the first project I make with a new language.
+This is my first project built with golang. I've worked on this project for a little over 3 days and building a blogging platform is usually the first project I make with a new language.
 
 ## Road Map
 * [x] API which allows CRUD for user management, posts, and user authentication
