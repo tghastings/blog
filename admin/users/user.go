@@ -14,7 +14,7 @@ import (
   "time"
 )
 
-var mySigningKey = []byte("captainjacksparrowsayshi")
+var mySigningKey = []byte("pleasedonthackmebro")
 
 type Message struct {
   Type    string
@@ -34,7 +34,6 @@ type User struct {
   Username string
   Password string
   APIToken string
-  Valtoken string
   Email string
 }
 
@@ -69,7 +68,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
-
   var newUser User
   err := json.NewDecoder(r.Body).Decode(&newUser)
   if err != nil {
@@ -102,7 +100,6 @@ func Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func Show(w http.ResponseWriter, r *http.Request) {
-
   var user User
   err := json.NewDecoder(r.Body).Decode(&user)
   if err != nil {
@@ -117,7 +114,6 @@ func Show(w http.ResponseWriter, r *http.Request) {
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
-
   var user User
   err := json.NewDecoder(r.Body).Decode(&user)
   if err != nil {
@@ -143,6 +139,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 func Auth(w http.ResponseWriter, r *http.Request) {
   var user User
+  fmt.Printf("%+v", r)
   // var count int
   err := json.NewDecoder(r.Body).Decode(&user)
   if err != nil {
