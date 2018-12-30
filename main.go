@@ -14,7 +14,7 @@
 //
 //     Produces:
 //     - application/json
-// test
+//
 // swagger:meta
 package main
 
