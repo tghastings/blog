@@ -66,7 +66,7 @@
         }
       }
     },
-    "/admin/user/delete/{user}": {
+    "/admin/user/delete/{id}": {
       "post": {
         "security": [
           {
@@ -102,8 +102,8 @@
         }
       }
     },
-    "/admin/user/update": {
-      "post": {
+    "/admin/user/update/{id}": {
+      "put": {
         "security": [
           {
             "api_key": []
@@ -141,7 +141,7 @@
         }
       }
     },
-    "/admin/user/{user}": {
+    "/admin/user/{id}": {
       "get": {
         "security": [
           {
@@ -280,7 +280,7 @@
         }
       }
     },
-    "/post/delete/{post}": {
+    "/post/delete/{id}": {
       "post": {
         "security": [
           {
@@ -319,8 +319,8 @@
         }
       }
     },
-    "/post/update/{post}": {
-      "post": {
+    "/post/update/{id}": {
+      "put": {
         "security": [
           {
             "api_key": []
@@ -358,7 +358,7 @@
         }
       }
     },
-    "/post/{post}": {
+    "/post/{id}": {
       "get": {
         "description": "Lists posts sorted by more recent post first",
         "produces": [
