@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/jinzhu/gorm"
-	"github.com/tghastings/blog/admin/db"
+	"github.com/tghastings/blog/config/db"
 )
 
 // Post describes the database schema

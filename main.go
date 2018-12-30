@@ -25,9 +25,9 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/tghastings/blog/admin/db"
-	user "github.com/tghastings/blog/admin/users"
-	post "github.com/tghastings/blog/posts"
+	post "github.com/tghastings/blog/api/posts"
+	user "github.com/tghastings/blog/api/users"
+	"github.com/tghastings/blog/config/db"
 )
 
 var mySigningKey = []byte("pleasedonthackmebro")

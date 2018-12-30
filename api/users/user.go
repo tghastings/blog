@@ -10,7 +10,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
-	"github.com/tghastings/blog/admin/db"
+	"github.com/tghastings/blog/config/db"
 	"golang.org/x/crypto/bcrypt"
 )
 
