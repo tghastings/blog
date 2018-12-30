@@ -27,54 +27,6 @@
   "host": "localhost",
   "basePath": "/",
   "paths": {
-    "/admin/post/create": {
-      "post": {
-        "description": "Create new post",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "operationId": "posts",
-        "parameters": [
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "csv",
-            "description": "tags to filter by",
-            "name": "tags",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "maximum number of results to return",
-            "name": "limit",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "pet response",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/pet"
-              }
-            }
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/errorModel"
-            }
-          }
-        }
-      }
-    },
     "/admin/user/create": {
       "post": {
         "security": [
