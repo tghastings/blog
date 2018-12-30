@@ -22,40 +22,11 @@ This is my first project built with golang. I have only been playing with it for
 # Usage
 Below is a quick snippet on how to use the platform.
 
+[TODO]
+
 ## Default Username and Password
 username: `root` 
 Password: `12345` 
-
-## Routes
-There are a number of routes defined for viewing and manipulating data for users and posts. The routes are distinguished into two groups, unauthenticated and authenticated. Unauthenticated routes do NOT require authentication. Authenticated routes DO require authentication using a JWT.
-
-### Unauthenticated Routes
-The routes below do not require authentication are accessible by everyone.
-
-`GET http://localhost:8090/` returns a list of all posts
-
-`GET http://localhost:8090/post/{id}` returns one post with the specified ID
-
-
-### Authenticated Routes
-`PUT http://localhost:8090/auth` 
-
-Consumes application/json:
-```application/json
-{
-  "username" : "root",
-  "password" : "12345"
-}
-```
-
-Returns a cookie with a JWT:
-```
-{
-  "Token" : "s0m3r@nd0mJSON70keN&e7sR37urn3d"
-}
-```
-
-
 
 # Licence
 
