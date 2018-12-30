@@ -284,7 +284,7 @@ func main() {
 	http.HandleFunc("/auth", user.Auth)
 
 	//Swagger
-	fs := http.FileServer(http.Dir("./docs/swagger"))
+	fs := http.FileServer(http.Dir("./docs"))
 	http.Handle("/docs/", http.StripPrefix("/docs/", fs))
 
 	// Start the application
