@@ -9,7 +9,6 @@
 * [x] CRUD framework for users and posts
 * [x] User authentication using JWTs and bcrypt with salt for secure password storage
 
-
 ## Motivation
 This is my first project built with golang. I have only been playing with it for a week and building a blogging platform is usually the first project I make with a new language.
 
@@ -19,6 +18,33 @@ This is my first project built with golang. I have only been playing with it for
 * [ ] Swagger API documentation
 * [ ] Javascript front-end for readers to read posts
 * [ ] Javascript front-end for authors to manage users and posts
+
+# Usage
+Below is a quick snippet on how to use the platform.
+
+## Default Username and Password
+username: `root` 
+Password: `12345` 
+
+## Routes
+There are a number of routes defined for viewing and manipulating data fro users and posts.
+
+## Unauthenticated Routes
+The routes below do not require authentication are accessible by everyone.
+
+`GET http://localhost:8090/` returns a list of all posts
+`GET http://localhost:8090/post/{id}` returns one post with the specified ID
+
+
+### Authenticated Routes
+`PUT http://localhost:8090/auth` returns a cookie with `Token`. Use this Token's value in a header for API requests.
+
+```
+{
+  "username" : "root",
+  "password" : "12345"
+}
+```
 
 # Licence
 
