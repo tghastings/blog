@@ -29,7 +29,7 @@ Password: `12345`
 ## Routes
 There are a number of routes defined for viewing and manipulating data for users and posts. The routes are distinguished into two groups, unauthenticated and authenticated. Unauthenticated routes do NOT require authentication. Authenticated routes DO require authentication using a JWT.
 
-## Unauthenticated Routes
+### Unauthenticated Routes
 The routes below do not require authentication are accessible by everyone.
 
 `GET http://localhost:8090/` returns a list of all posts
