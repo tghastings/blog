@@ -6,7 +6,7 @@
 
 # Features
 * [x] Postgres, MySQL, SQLite and Foundation database support
-* [x] CRUD framework for users and posts
+* [x] CRUD functions for users and posts
 * [x] User authentication using JWTs and bcrypt with salt for secure password storage
 
 ## Motivation
