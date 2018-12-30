@@ -36,12 +36,13 @@ Clone the repo `git clone git@github.com:tghastings/blog.git`
 
 `./blog`
 
-## [View the API Documentation](https://tghastings.github.io/blog/)
-
 ## Default Username and Password
 username: `root` 
 Password: `12345` 
 
-# Licence
+# [View the API Documentation](https://tghastings.github.io/blog/)
+The API is documented using Swagger. [View the API Documentation](https://tghastings.github.io/blog/).
 
+
+# Licence
 This project is released under the MIT licence. See [LICENCE](LICENCE) for more details.
