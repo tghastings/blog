@@ -20,9 +20,23 @@ This is my first project built with golang. I have only been playing with it for
 * [ ] Javascript front-end for authors to manage users and posts
 
 # Usage
-Below is a quick snippet on how to use the platform.
+There are two ways to start the blog platform. The first is to download the binary and the second is to clone the repository, build, and run. 
 
-[TODO]
+## From Binary
+Download the binary [Download](https://res.cloudinary.com/innopar/raw/upload/v1546122423/blog-0.0.1.tar_b9s505.gz)
+
+Run `./blog`
+
+## From Source
+Clone the repo `git clone git@github.com:tghastings/blog.git`
+
+`cd blog`
+
+`go build`
+
+`./blog`
+
+## [View the API Documentation](https://tghastings.github.io/blog/)
 
 ## Default Username and Password
 username: `root` 
