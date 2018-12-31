@@ -74,6 +74,26 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+// Route is used to route methods for individual user actions
+func Route(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		Show(w, r)
+	case http.MethodPost:
+		// Create a new record.
+		Create(w, r)
+	case http.MethodPut:
+		// Update an existing record.
+		Update(w, r)
+	case http.MethodDelete:
+		// Remove the record.
+		Delete(w, r)
+	default:
+		http.Error(w, "Error with user routing", 400)
+		return
+	}
+}
+
 // Create creates a new user
 func Create(w http.ResponseWriter, r *http.Request) {
 	var newUser User
