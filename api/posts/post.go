@@ -139,13 +139,13 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	// unmarshal content to ApplicantJSON
 	db.DB.Find(&post, postID)
 	db.DB.Delete(&post)
-		//json resp
-		msg := Message{"success", "The post has been deleted."}
-		js, err := json.Marshal(msg)
-		if err != nil {
-			http.Error(w, err.Error(), 400)
-			return
-		}
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(js)
+	//json resp
+	msg := Message{"success", "The post has been deleted."}
+	js, err := json.Marshal(msg)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
