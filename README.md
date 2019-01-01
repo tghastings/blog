@@ -15,7 +15,7 @@ This is my first project built with golang. I've worked on this project for a li
 ## Road Map
 * [x] API which allows CRUD for user management, posts, and user authentication
 * [ ] Automated API testing
-* [ ] Swagger API documentation
+* [x] Swagger API documentation
 * [ ] Javascript front-end for readers to read posts
 * [ ] Javascript front-end for authors to manage users and posts
 
