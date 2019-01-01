@@ -2,7 +2,6 @@ package post
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -38,6 +37,26 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
+}
+
+// Route is used to route methods for individual user actions
+func Route(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		Show(w, r)
+	case http.MethodPost:
+		// Create a new record.
+		Create(w, r)
+	case http.MethodPut:
+		// Update an existing record.
+		Update(w, r)
+	case http.MethodDelete:
+		// Remove the record.
+		Delete(w, r)
+	default:
+		http.Error(w, "Error with post routing", 400)
+		return
+	}
 }
 
 // Create new post
@@ -86,7 +105,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 // Update updates one record
 func Update(w http.ResponseWriter, r *http.Request) {
 	var post Post
-	postID := strings.TrimPrefix(r.URL.Path, "/admin/post/update/")
+	postID := strings.TrimPrefix(r.URL.Path, "/admin/post/")
 	if postID == "" {
 		log.Println("ID Param 'key' is missing")
 		return
@@ -109,16 +128,24 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-// Delete removed a post
+// Delete removes a post
 func Delete(w http.ResponseWriter, r *http.Request) {
 	var post Post
-	err := json.NewDecoder(r.Body).Decode(&post)
-	if err != nil {
-		http.Error(w, err.Error(), 400)
+	postID := strings.TrimPrefix(r.URL.Path, "/admin/post/")
+	if postID == "" {
+		log.Println("ID Param 'key' is missing")
 		return
 	}
-	fmt.Println(post.ID)
 	// unmarshal content to ApplicantJSON
-	db.DB.Find(&post, post.ID)
+	db.DB.Find(&post, postID)
 	db.DB.Delete(&post)
+		//json resp
+		msg := Message{"success", "The post has been deleted."}
+		js, err := json.Marshal(msg)
+		if err != nil {
+			http.Error(w, err.Error(), 400)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 }

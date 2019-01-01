@@ -152,7 +152,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 // Update updates one user record by id
 func Update(w http.ResponseWriter, r *http.Request) {
 	var user User
-	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/update/")
+	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/")
 	if userID == "" {
 		log.Println("ID Param 'key' is missing")
 		return
@@ -165,7 +165,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(user)
 	db.DB.Model(&user).Where("ID = ?", userID).Updates(user)
 	//json resp
-	msg := Message{"success", user.Username + "'s account updated."}
+	msg := Message{"success", "The account has been updated."}
 	js, err := json.Marshal(msg)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
@@ -178,15 +178,26 @@ func Update(w http.ResponseWriter, r *http.Request) {
 // Delete removes a user by id
 func Delete(w http.ResponseWriter, r *http.Request) {
 	var user User
-	err := json.NewDecoder(r.Body).Decode(&user)
-	if err != nil {
-		http.Error(w, err.Error(), 400)
+	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/")
+	if userID == "" {
+		log.Println("ID Param 'key' is missing")
 		return
 	}
 	// fmt.Println(user.ID)
 	// unmarshal content to ApplicantJSON
-	db.DB.Find(&user, user.ID)
+	db.DB.Find(&user, userID)
 	db.DB.Delete(&user)
+
+	db.DB.Model(&user).Where("ID = ?", userID).Updates(user)
+	//json resp
+	msg := Message{"success", "The user has been deleted."}
+	js, err := json.Marshal(msg)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 // FirstUser is called from main.go and is used to create an admin user on first run.

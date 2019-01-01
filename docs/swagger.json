@@ -27,384 +27,359 @@
   "host": "localhost",
   "basePath": "/",
   "paths": {
-    "/admin/user/create": {
-      "post": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to create a new account",
-        "consumes": [
-          "application/json"
-        ],
+    "/": {
+      "get": {
+        "description": "Returns all posts",
         "produces": [
           "application/json"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Allow a registered user to create an account",
-        "operationId": "users",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
+        "summary": "Returns all posts from the system",
+        "operationId": "posts"
       }
     },
-    "/admin/user/delete/{id}": {
+    "/admin/post/": {
       "post": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to delete an exisiting user",
+        "description": "Creates a new post",
         "produces": [
           "application/json"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Delete an exisiting user.",
-        "operationId": "users",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
+        "summary": "Creates a new post in the system",
+        "operationId": "posts",
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Title",
+            "in": "body",
+            "required": true
           },
-          "422": {
-            "$ref": "#/responses/validationError"
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The date of the post",
+            "name": "Date",
+            "in": "body",
+            "required": true
           },
-          "default": {
-            "$ref": "#/responses/genericError"
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The author for the post",
+            "name": "Author",
+            "in": "body",
+            "required": true
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "text"
+            },
+            "collectionFormat": "json",
+            "description": "The content of the post",
+            "name": "Content",
+            "in": "body",
+            "required": true
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The tags of the post",
+            "name": "Tags",
+            "in": "body"
           }
-        }
+        ]
       }
     },
-    "/admin/user/update/{id}": {
+    "/admin/post/{id}": {
       "put": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to update an exisiting user",
-        "consumes": [
-          "application/json"
-        ],
+        "description": "Updates an existing post",
         "produces": [
           "application/json"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Update an exisiting user",
-        "operationId": "users",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
+        "summary": "Update an existing post",
+        "operationId": "posts",
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The ID of the post to update",
+            "name": "id",
+            "in": "query",
+            "required": true
           },
-          "422": {
-            "$ref": "#/responses/validationError"
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Title",
+            "in": "body"
           },
-          "default": {
-            "$ref": "#/responses/genericError"
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The date of the post",
+            "name": "Date",
+            "in": "body"
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The author for the post",
+            "name": "Author",
+            "in": "body"
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "text"
+            },
+            "collectionFormat": "json",
+            "description": "The content of the post",
+            "name": "Content",
+            "in": "body"
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The tags of the post",
+            "name": "Tags",
+            "in": "body"
           }
-        }
+        ]
+      },
+      "delete": {
+        "description": "Deletes a single post",
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Deletes a single post from the system",
+        "operationId": "posts",
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The ID of the post to retrieve",
+            "name": "id",
+            "in": "body",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/admin/user/": {
+      "post": {
+        "description": "Creates a new user",
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Creates a new user in the system",
+        "operationId": "user",
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Username",
+            "in": "body",
+            "required": true
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Password",
+            "in": "body",
+            "required": true
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Email Address",
+            "in": "body",
+            "required": true
+          }
+        ]
       }
     },
     "/admin/user/{id}": {
-      "get": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to view a specific user record",
+      "put": {
+        "description": "Updates a new user",
         "produces": [
           "application/json"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Show a specific users",
-        "operationId": "users",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
+        "summary": "Updates a user in the system",
+        "operationId": "user",
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The ID of the post to retrieve",
+            "name": "id",
+            "in": "query",
+            "required": true
           },
-          "422": {
-            "$ref": "#/responses/validationError"
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Username",
+            "in": "body"
           },
-          "default": {
-            "$ref": "#/responses/genericError"
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Password",
+            "in": "body"
+          },
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The title of the post",
+            "name": "Email Address",
+            "in": "body"
           }
-        }
+        ]
+      },
+      "delete": {
+        "description": "Deletes a single user",
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Deletes a single user from the system",
+        "operationId": "posts",
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "description": "The ID of the post to retrieve",
+            "name": "id",
+            "in": "body",
+            "required": true
+          }
+        ]
       }
     },
     "/admin/users": {
       "get": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to see all registered users.",
+        "description": "Returns all users",
         "produces": [
           "application/json"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "See all registered users.",
-        "operationId": "users",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
+        "summary": "Returns all users from the system",
+        "operationId": "users"
       }
     },
     "/auth": {
       "post": {
-        "description": "This will allow a user to authenticate with the system and get a JWT.",
-        "consumes": [
-          "application/json"
-        ],
+        "description": "Authenticates a user and returns a Token in the form of a cookie",
         "produces": [
-          "application/json"
+          "headers/cookie"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Authenticate a user with username and password.",
-        "operationId": "users",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
-      }
-    },
-    "/post/create": {
-      "post": {
-        "security": [
+        "summary": "Authenticates a user against the system",
+        "operationId": "auth",
+        "parameters": [
           {
-            "api_key": []
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The username of the user to authenticate",
+            "name": "Username",
+            "in": "body",
+            "required": true
           },
           {
-            "oauth": [
-              "read",
-              "write"
-            ]
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The plain text password of the user to authenticate",
+            "name": "Password",
+            "in": "body",
+            "required": true
           }
-        ],
-        "description": "This will allow the user to create a new post",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Create a new post",
-        "operationId": "posts",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
-      }
-    },
-    "/post/delete/{id}": {
-      "post": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to delete an exisiting post",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Delete an exisiting post.",
-        "operationId": "posts",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
-      }
-    },
-    "/post/update/{id}": {
-      "put": {
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
-        "description": "This will allow the user to Update an exisiting post",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Update an exisiting post.",
-        "operationId": "posts",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
+        ]
       }
     },
     "/post/{id}": {
       "get": {
-        "description": "Lists posts sorted by more recent post first",
+        "description": "Returns a single post",
         "produces": [
           "application/json"
         ],
-        "schemes": [
-          "http",
-          "https"
-        ],
+        "summary": "Returns a single post from the system",
         "operationId": "posts",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
+        "parameters": [
+          {
+            "type": "object",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "json",
+            "description": "The ID of the post to retrieve",
+            "name": "id",
+            "in": "body",
+            "required": true
           }
-        }
-      }
-    },
-    "/posts": {
-      "get": {
-        "description": "This will show all available posts by default.",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "summary": "Lists posts sorted by more recent post first",
-        "operationId": "posts",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/someResponse"
-          },
-          "422": {
-            "$ref": "#/responses/validationError"
-          },
-          "default": {
-            "$ref": "#/responses/genericError"
-          }
-        }
+        ]
       }
     }
   }

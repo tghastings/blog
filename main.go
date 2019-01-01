@@ -42,178 +42,313 @@ func main() {
 	// Migrate the schema
 	db.DB.AutoMigrate(user.User{})
 	db.DB.AutoMigrate(post.Post{})
-	// Check to see if a user exisits if not create root
+	// Check to see if a user exists if not create root
 	user.FirstUser()
 
 	/*
-		ROUTES
+		SWAGGER OPERATIONS
 	*/
 
-	// swagger:route GET /posts posts
+	// swagger:operation GET / posts
 	//
-	// Lists posts sorted by more recent post first
+	// Returns all posts from the system
 	//
-	// This will show all available posts by default.
+	// Returns all posts
 	//
-	//     Produces:
-	//     - application/json
+	// ---
+	// produces:
+	// - application/json
 	//
-	//     Schemes: http, https
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
 	http.HandleFunc("/", post.Index)
 
-	// swagger:route GET /post/{id} posts
+	// swagger:operation GET /post/{id} posts
 	//
-	// Lists posts sorted by more recent post first
+	// Returns a single post from the system
 	//
-	//
-	//     Produces:
-	//     - application/json
-	//
-	//     Schemes: http, https
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
+	// Returns a single post
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: id
+	//   in: body
+	//   description: The ID of the post to retrieve
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
 	http.HandleFunc("/post/", post.Show)
 
-	// swagger:route POST /post/create posts
+	// swagger:operation POST /admin/post/ posts
 	//
-	// Create a new post
+	// Creates a new post in the system
 	//
-	// This will allow the user to create a new post
-	//     Consumes:
-	//     - application/json
+	// Creates a new post
 	//
-	//     Produces:
-	//     - application/json
 	//
-	//     Schemes: http, https
-	//
-	//     Security:
-	//       api_key:
-	//       oauth: read, write
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
-	http.Handle("/admin/post/create", isAuthorized(post.Create))
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: Title
+	//   in: body
+	//   description: The title of the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Date
+	//   in: body
+	//   description: The date of the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Author
+	//   in: body
+	//   description: The author for the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Content
+	//   in: body
+	//   description: The content of the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: text
+	//   collectionFormat: json
+	// - name: Tags
+	//   in: body
+	//   description: The tags of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
 
-	// swagger:route POST /post/delete/{id} posts
+	// swagger:operation PUT /admin/post/{id} posts
 	//
-	// Delete an exisiting post.
+	// Update an existing post
 	//
-	// This will allow the user to delete an exisiting post
-	//     Consumes:
-	//     - application/json
+	// Updates an existing post
 	//
-	//     Produces:
-	//     - application/json
-	//
-	//     Schemes: http, https
-	//
-	//     Security:
-	//       api_key:
-	//       oauth: read, write
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
-	http.Handle("/admin/post/delete", isAuthorized(post.Delete))
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: id
+	//   in: query
+	//   description: The ID of the post to update
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Title
+	//   in: body
+	//   description: The title of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Date
+	//   in: body
+	//   description: The date of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Author
+	//   in: body
+	//   description: The author for the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Content
+	//   in: body
+	//   description: The content of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: text
+	//   collectionFormat: json
+	// - name: Tags
+	//   in: body
+	//   description: The tags of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
 
-	// swagger:route PUT /post/update/{id} posts
+	// swagger:operation DELETE /admin/post/{id} posts
 	//
-	// Update an exisiting post.
+	// Deletes a single post from the system
 	//
-	// This will allow the user to Update an exisiting post
-	//     Consumes:
-	//     - application/json
-	//
-	//     Produces:
-	//     - application/json
-	//
-	//     Schemes: http, https
-	//
-	//     Security:
-	//       api_key:
-	//       oauth: read, write
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
-	http.Handle("/admin/post/update/", isAuthorized(post.Update))
+	// Deletes a single post
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: id
+	//   in: body
+	//   description: The ID of the post to retrieve
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+
+	http.Handle("/admin/post/", isAuthorized(post.Route))
 
 	// Users
 
-	// swagger:route GET /admin/users users
+	// swagger:operation GET /admin/users users
 	//
-	// See all registered users.
+	// Returns all users from the system
 	//
-	// This will allow the user to see all registered users.
+	// Returns all users
 	//
-	//     Produces:
-	//     - application/json
-	//
-	//     Schemes: http, https
-	//
-	//     Security:
-	//       api_key:
-	//       oauth: read, write
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
+	// ---
+	// produces:
+	// - application/json
 	http.Handle("/admin/users", isAuthorized(user.Index))
 
-	// swagger:route GET /admin/user/{id} users
+	// swagger:operation POST /admin/user/ user
 	//
-	// Show a specific users
+	// Creates a new user in the system
 	//
-	// This will allow the user to view a specific user record
+	// Creates a new user
 	//
-	//     Produces:
-	//     - application/json
 	//
-	//     Schemes: http, https
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: Username
+	//   in: body
+	//   description: The title of the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Password
+	//   in: body
+	//   description: The title of the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Email Address
+	//   in: body
+	//   description: The title of the post
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+
+	// swagger:operation PUT /admin/user/{id} user
 	//
-	//     Security:
-	//       api_key:
-	//       oauth: read, write
+	// Updates an existing user in the system
 	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
+	// Updates an existing user
+	//
+	//
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: id
+	//   in: query
+	//   description: The ID of the post to retrieve
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Username
+	//   in: body
+	//   description: The title of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Password
+	//   in: body
+	//   description: The title of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Email Address
+	//   in: body
+	//   description: The title of the post
+	//   required: false
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+
+	// swagger:operation DELETE /admin/user/{id} posts
+	//
+	// Deletes a single user from the system
+	//
+	// Deletes a single user
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: id
+	//   in: body
+	//   description: The ID of the post to retrieve
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
 	http.Handle("/admin/user/", isAuthorized(user.Route))
 
 	//Auth
 
-	// swagger:route POST /auth users
+	// swagger:operation POST /auth auth
 	//
-	// Authenticate a user with username and password.
+	// Authenticates a user against the system
 	//
-	// This will allow a user to authenticate with the system and get a JWT.
-	//     Consumes:
-	//     - application/json
-	//
-	//     Produces:
-	//     - application/json
-	//
-	//     Schemes: http, https
-	//
-	//     Responses:
-	//       default: genericError
-	//       200: someResponse
-	//       422: validationError
+	// Authenticates a user and returns a Token in the form of a cookie
+	// ---
+	// produces:
+	// - headers/cookie
+	// parameters:
+	// - name: Username
+	//   in: body
+	//   description: The username of the user to authenticate
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
+	// - name: Password
+	//   in: body
+	//   description: The plain text password of the user to authenticate
+	//   required: true
+	//   type: object
+	//   items:
+	//     type: string
+	//   collectionFormat: json
 	http.HandleFunc("/auth", user.Auth)
 
 	//Swagger
