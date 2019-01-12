@@ -9,6 +9,7 @@ import (
 
 var mySigningKey = []byte("pleasedonthackmebro")
 
+// IsAuthorized checks to see if a user has a current JWT
 func IsAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 

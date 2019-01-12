@@ -209,7 +209,7 @@ func FirstUser() {
 	}
 }
 
-// Auth checks a users creds
+// UserAuth checks a users creds
 func UserAuth(w http.ResponseWriter, r *http.Request) {
 	var user User
 	fmt.Printf("%+v", r)
