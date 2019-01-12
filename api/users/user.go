@@ -9,13 +9,12 @@ import (
 	"strings"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	auth "github.com/tghastings/blog/api/auth"
 	"github.com/jinzhu/gorm"
 	"github.com/tghastings/blog/config/db"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var mySigningKey = []byte("pleasedonthackmebro")
 
 // Message describes the JSON object message
 type Message struct {
@@ -212,7 +211,7 @@ func FirstUser() {
 }
 
 // Auth checks a users creds
-func Auth(w http.ResponseWriter, r *http.Request) {
+func UserAuth(w http.ResponseWriter, r *http.Request) {
 	var user User
 	fmt.Printf("%+v", r)
 	// var count int
@@ -231,7 +230,7 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 	// do the passwords match?
 	if comparePasswords(user.Password, []byte(plainPassword)) {
 		//json resp
-		newToken := GenerateJWT(user.Username)
+		newToken := auth.GenerateJWT(user.Username)
 		// JWT := JSONTOKEN{newToken}
 		// js, err := json.Marshal(JWT)
 		// if err != nil {
@@ -280,24 +279,6 @@ func comparePasswords(hashedPwd string, plainPwd []byte) bool {
 	}
 
 	return true
-}
-
-// GenerateJWT generates the JSON web token
-func GenerateJWT(username string) string {
-	token := jwt.New(jwt.SigningMethodHS256)
-
-	claims := token.Claims.(jwt.MapClaims)
-
-	claims["authorized"] = true
-	claims["client"] = username
-
-	tokenString, err := token.SignedString(mySigningKey)
-
-	if err != nil {
-		return "Error, unable to make JWT in user.go"
-	}
-	//json resp
-	return tokenString
 }
 
 // tokenGenerator generates the API token

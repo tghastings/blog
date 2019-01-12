@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"fmt"
 
 	"github.com/jinzhu/gorm"
 	"github.com/tghastings/blog/config/db"
@@ -61,6 +62,7 @@ func Route(w http.ResponseWriter, r *http.Request) {
 
 // Create new post
 func Create(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Here")
 	var newPost Post
 	err := json.NewDecoder(r.Body).Decode(&newPost)
 	if err != nil {

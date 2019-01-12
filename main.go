@@ -23,14 +23,12 @@ import (
 	"log"
 	"net/http"
 
-	jwt "github.com/dgrijalva/jwt-go"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	auth "github.com/tghastings/blog/api/auth"
 	post "github.com/tghastings/blog/api/posts"
 	user "github.com/tghastings/blog/api/users"
 	"github.com/tghastings/blog/config/db"
 )
-
-var mySigningKey = []byte("pleasedonthackmebro")
 
 var err error
 
@@ -209,7 +207,8 @@ func main() {
 	//     type: string
 	//   collectionFormat: json
 
-	http.Handle("/admin/post/", isAuthorized(post.Route))
+	http.Handle("/admin/post/", auth.IsAuthorized(post.Route))
+	http.Handle("/admin/post", auth.IsAuthorized(post.Route))
 
 	// Users
 
@@ -222,7 +221,7 @@ func main() {
 	// ---
 	// produces:
 	// - application/json
-	http.Handle("/admin/users", isAuthorized(user.Index))
+	http.Handle("/admin/users", auth.IsAuthorized(user.Index))
 
 	// swagger:operation POST /admin/user/ user
 	//
@@ -320,7 +319,8 @@ func main() {
 	//   type: object
 	//   items:
 	//     type: string
-	http.Handle("/admin/user/", isAuthorized(user.Route))
+	http.Handle("/admin/user/", auth.IsAuthorized(user.Route))
+	http.Handle("/admin/user", auth.IsAuthorized(user.Route))
 
 	//Auth
 
@@ -349,7 +349,7 @@ func main() {
 	//   items:
 	//     type: string
 	//   collectionFormat: json
-	http.HandleFunc("/auth", user.Auth)
+	http.HandleFunc("/auth", user.UserAuth)
 
 	//Swagger
 	fs := http.FileServer(http.Dir("./docs"))
@@ -359,26 +359,4 @@ func main() {
 	fmt.Println("The application has started and is listening on port 8090.")
 	http.ListenAndServe(":8090", nil)
 	log.Fatal(http.ListenAndServe(":8090", nil))
-}
-
-func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		if r.Header["Token"] != nil {
-			token, err := jwt.Parse(r.Header["Token"][0], func(token *jwt.Token) (interface{}, error) {
-				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-					return nil, fmt.Errorf("There was an error")
-				}
-				return mySigningKey, nil
-			})
-			if err != nil {
-				fmt.Fprintf(w, err.Error())
-			}
-			if token.Valid {
-				endpoint(w, r)
-			}
-		} else {
-			fmt.Fprintf(w, "Not Authorized")
-		}
-	})
 }
