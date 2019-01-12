@@ -2,10 +2,10 @@ package post
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
-	"fmt"
 
 	"github.com/jinzhu/gorm"
 	"github.com/tghastings/blog/config/db"

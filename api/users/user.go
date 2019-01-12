@@ -9,12 +9,11 @@ import (
 	"strings"
 	"time"
 
-	auth "github.com/tghastings/blog/api/auth"
 	"github.com/jinzhu/gorm"
+	auth "github.com/tghastings/blog/api/auth"
 	"github.com/tghastings/blog/config/db"
 	"golang.org/x/crypto/bcrypt"
 )
-
 
 // Message describes the JSON object message
 type Message struct {
