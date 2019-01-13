@@ -8,7 +8,8 @@ var err error
 
 // Open is used to open the database connection
 func Open() error {
-	DB, err = gorm.Open("sqlite3", "test.db")
+	DB, err = gorm.Open("sqlite3", "/blog/blog.db")
+	// DB, err = gorm.Open("postgres", "host=db port=5432 user=postgres dbname=postgres password=example")
 	return err
 }
 

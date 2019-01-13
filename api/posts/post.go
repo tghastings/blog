@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
-	"github.com/tghastings/blog/config/db"
 	auth "github.com/tghastings/blog/api/auth"
+	"github.com/tghastings/blog/config/db"
 )
 
 // Post describes the database schema
