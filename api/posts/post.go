@@ -2,7 +2,6 @@ package post
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -15,7 +14,7 @@ import (
 type Post struct {
 	gorm.Model
 	Title   string
-	Date    string
+	Date    string `gorm:"type:varchar(256)"`
 	Tags    string
 	Author  string
 	Content string `gorm:"type:varchar(256)"`
@@ -62,7 +61,6 @@ func Route(w http.ResponseWriter, r *http.Request) {
 
 // Create new post
 func Create(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Here")
 	var newPost Post
 	err := json.NewDecoder(r.Body).Decode(&newPost)
 	if err != nil {
