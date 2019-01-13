@@ -49,3 +49,7 @@ func GenerateJWT(username string) string {
 	//json resp
 	return tokenString
 }
+
+func EnableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}

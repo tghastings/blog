@@ -8,6 +8,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/tghastings/blog/config/db"
+	auth "github.com/tghastings/blog/api/auth"
 )
 
 // Post describes the database schema
@@ -28,6 +29,7 @@ type Message struct {
 
 // Index shows all posts
 func Index(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var posts []Post
 	db.DB.Order("created_at desc").Find(&posts)
 	js, err := json.Marshal(posts)
@@ -86,6 +88,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 // Show displays a single post
 func Show(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var post Post
 	postID := strings.TrimPrefix(r.URL.Path, "/post/")
 	if postID == "" {
