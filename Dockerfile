@@ -1,5 +1,6 @@
 FROM ubuntu
-COPY blog /new/blog
-CMD /new/blog
+RUN mkdir -p /app
+COPY blog /app/blog
+CMD /app/blog
 
 EXPOSE 8090
