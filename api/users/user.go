@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/jinzhu/gorm"
 	auth "github.com/tghastings/blog/api/auth"
@@ -38,25 +37,6 @@ type User struct {
 	Password string
 	APIToken string
 	Email    string
-}
-
-// Cookie describes the cookies that we use to store session information
-type Cookie struct {
-	Name       string
-	Value      string
-	Path       string
-	Domain     string
-	Expires    time.Time
-	RawExpires string
-
-	// MaxAge=0 means no 'Max-Age' attribute specified.
-	// MaxAge<0 means delete cookie now, equivalently 'Max-Age: 0'
-	// MaxAge>0 means Max-Age attribute present and given in seconds
-	MaxAge   int
-	Secure   bool
-	HTTPOnly bool
-	Raw      string
-	Unparsed []string // Raw text of unparsed attribute-value pairs
 }
 
 // Index displays all users
@@ -213,7 +193,8 @@ func FirstUser() {
 func UserAuth(w http.ResponseWriter, r *http.Request) {
 	auth.EnableCors(&w)
 	var user User
-	fmt.Printf("%+v", r)
+	// fmt.Printf("%+v", r)
+	// fmt.Print(r.Body)
 	// var count int
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -239,11 +220,21 @@ func UserAuth(w http.ResponseWriter, r *http.Request) {
 		// w.Header().Set("Content-Type", "application/json")
 		// w.Write(js)
 
-		expiration := time.Now().Add(365 * 24 * time.Hour)
-		cookie := http.Cookie{Name: "username", Value: user.Username, Expires: expiration}
-		http.SetCookie(w, &cookie)
-		cookie = http.Cookie{Name: "Token", Value: newToken, Expires: expiration}
-		http.SetCookie(w, &cookie)
+		// expiration := time.Now().Add(365 * 24 * time.Hour)
+		// cookie := http.Cookie{Name: "username", Value: user.Username, Expires: expiration}
+		// http.SetCookie(w, &cookie)
+		// cookie = http.Cookie{Name: "Token", Value: newToken, Expires: expiration}
+		// http.SetCookie(w, &cookie)
+			//json resp
+		msg := Message{"token", newToken}
+		js, err := json.Marshal(msg)
+		if err != nil {
+			fmt.Print(err)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+
 
 	} else {
 		http.Error(w, "Bad username / password", http.StatusForbidden)
