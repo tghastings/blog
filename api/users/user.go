@@ -244,10 +244,9 @@ func UserAuth(w http.ResponseWriter, r *http.Request) {
 		http.SetCookie(w, &cookie)
 		cookie = http.Cookie{Name: "Token", Value: newToken, Expires: expiration}
 		http.SetCookie(w, &cookie)
-		http.StatusText(200)
 
 	} else {
-		http.Error(w, "Bad username / password", http.StatusText(200))
+		http.Error(w, "Bad username / password", http.StatusForbidden)
 	}
 }
 
