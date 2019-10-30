@@ -211,6 +211,7 @@ func FirstUser() {
 
 // UserAuth checks a users creds
 func UserAuth(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var user User
 	fmt.Printf("%+v", r)
 	// var count int
