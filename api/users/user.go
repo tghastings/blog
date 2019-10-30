@@ -74,6 +74,7 @@ func Route(w http.ResponseWriter, r *http.Request) {
 
 // Create creates a new user
 func Create(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var newUser User
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
@@ -111,6 +112,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 // Show shows all users
 func Show(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var user User
 	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/")
 	if userID == "" {
@@ -129,6 +131,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 
 // Update updates one user record by id
 func Update(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var user User
 	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/")
 	if userID == "" {
@@ -155,6 +158,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 // Delete removes a user by id
 func Delete(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var user User
 	userID := strings.TrimPrefix(r.URL.Path, "/admin/user/")
 	if userID == "" {

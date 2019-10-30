@@ -63,6 +63,7 @@ func Route(w http.ResponseWriter, r *http.Request) {
 
 // Create new post
 func Create(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var newPost Post
 	err := json.NewDecoder(r.Body).Decode(&newPost)
 	if err != nil {
@@ -107,6 +108,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 
 // Update updates one record
 func Update(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var post Post
 	postID := strings.TrimPrefix(r.URL.Path, "/admin/post/")
 	if postID == "" {
@@ -133,6 +135,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 // Delete removes a post
 func Delete(w http.ResponseWriter, r *http.Request) {
+	auth.EnableCors(&w)
 	var post Post
 	postID := strings.TrimPrefix(r.URL.Path, "/admin/post/")
 	if postID == "" {
