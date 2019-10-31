@@ -17,7 +17,7 @@ func IsAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handle
 		fmt.Print("Here you are!")
 		if r.Header["Authorization"] != nil {
 			fmt.Println("Here is the token auth: ")
-			fmt.Println(r.Header["Authorization"])
+			fmt.Println(r.Header["Authorization"][0])
 			fmt.Println("Here you are!")
 			token, err := jwt.Parse(r.Header["Authorization"][0], func(token *jwt.Token) (interface{}, error) {
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -31,6 +31,7 @@ func IsAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handle
 				fmt.Fprintf(w, err.Error())
 			}
 			if token.Valid {
+				fmt.Println("Authorized")
 				endpoint(w, r)
 			}
 		} else {
